@@ -1,73 +1,238 @@
 <template>
   <div class="video-player-wrapper">
-    <verticle-video></verticle-video>
-    <video-list>
+    <vertical-video
+      :src="currentPlayVideo"
+      :firstFrame="currentFirstFrame">
+    </vertical-video>
+    <div v-if="nowPlayIndex !== 0"
+      class="move-arrow-left-wrapper"
+      @click="moveVideo('backward')">
+      <div  class="move-arrow-left"></div>
+    </div>
+    <div v-if="nowPlayIndex !== vidoeOrder.length - 1"
+      class="move-arrow-right-wrapper"
+      @click="moveVideo('forward')">
+      <div class="move-arrow-right"></div>
+    </div>
+    <video-list ref="videoListRef">
       <div v-for="(item, index) in videoImageList"
         v-bind:item="item"
         v-bind:index="index"
         v-bind:key="index"
         class="video-image"
         :style="{
-          backgroundImage: 'url(' + item.src + ')'
-        }">
-        <div>{{item.name}}</div>
-        <div>{{item.title}}</div>
-        <div>{{item.time}}</div>
+          backgroundImage: 'url(' + item.src + ')',
+          borderStyle: item.style
+        }"
+        @click="selectVideo(index)">
+        <div class="video-mask" :style="{opacity: item.opacity}"></div>
+        <div class="video-label-wrapper">
+          <div class="video-label-name">{{item.name}}</div>
+          <div class="video-label-title">{{item.title}}</div>
+          <div class="video-label-time">{{item.time}}</div>
+        </div>
       </div>
     </video-list>
+    <div class="watch-report-wrapper">
+      <transition name="fade">
+        <div v-if="showWatchReport" class="watch-report" @click="watchReport"  key="report">看更多報導</div>
+      </transition>
+      <transition name="fade">
+        <share v-if="showWatchReport" href="https://udn.com/upf/newmedia/2018_data/same_sex_marriage_referendum/index.html" key="share"></share>
+      </transition>
+    </div>
+
   </div>
 </template>
 
 <script>
-import VerticleVideo from './VerticleVideo'
+import VerticalVideo from './VerticalVideo'
 import VideoList from './VideoList'
+import Share from './Share'
 
 export default {
   name: 'VideoPlayer',
   components: {
-    VerticleVideo,
-    VideoList
+    VerticalVideo,
+    VideoList,
+    Share
   },
   data () {
     return {
+      vidoeOrder: ['bg', 'ding', 'ho', 'lee', 'miao', 'chu', 'wu', 'end'],
+      nowPlayIndex: 0,
       videoImageList: {
+        'bg': {
+          src: 'static/video_images/p_bg.jpg',
+          title: '　',
+          name: '同婚修民法或立專法？候選人怎麼說',
+          time: '0:10',
+          style: 'solid',
+          opacity: 0
+        },
         'ding': {
-          src: 'static/video_images/6.png',
+          src: 'static/video_images/p_ding.jpg',
           title: '國民黨台北市長候選人',
           name: '丁守中',
-          time: '0:20'
+          time: '0:25',
+          style: 'none',
+          opacity: 0.5
         },
         'ho': {
-          src: 'static/video_images/6.png',
-          title: '候選人',
+          src: 'static/video_images/p_ho.jpg',
+          title: '國民黨新北市長候選人',
           name: '侯友宜',
-          time: '0:20'
+          time: '0:25',
+          style: 'none',
+          opacity: 0.5
         },
         'lee': {
-          src: 'static/video_images/6.png',
-          title: '候選人',
+          src: 'static/video_images/p_lee.jpg',
+          title: '無黨籍台北市長候選人',
           name: '李錫錕',
-          time: '0:20'
+          time: '0:32',
+          style: 'none',
+          opacity: 0.5
         },
         'miao': {
-          src: 'static/video_images/6.png',
-          title: '候選人',
+          src: 'static/video_images/p_miao.jpg',
+          title: '社民黨台北市議員候選人',
           name: '苗博雅',
-          time: '0:20'
+          time: '0:32',
+          style: 'none',
+          opacity: 0.5
         },
         'chu': {
-          src: 'static/video_images/6.png',
-          title: '候選人',
+          src: 'static/video_images/p_chu.jpg',
+          title: '無黨籍台北市議員候選人',
           name: '邱威傑 (呱吉)',
-          time: '0:20'
+          time: '0:23',
+          style: 'none',
+          opacity: 0.5
         },
         'wu': {
-          src: 'static/video_images/6.png',
-          title: '候選人',
+          src: 'static/video_images/p_wu.jpg',
+          title: '民進黨台北市議員候選人',
           name: '吳沛憶',
-          time: '0:20'
+          time: '0:30',
+          style: 'none',
+          opacity: 0.5
+        },
+        'end': {
+          src: 'static/video_images/p_end.jpg',
+          title: '',
+          name: '',
+          time: '0:10',
+          style: 'none',
+          opacity: 0.5
+        }
+      },
+      videoList: {
+        'bg': {
+          src: 'static/videos/v_bg.mp4',
+          firstFrame: 'static/first_frames/v_bg.jpg'
+        },
+        'ding': {
+          src: 'static/videos/v_ding.mp4',
+          firstFrame: 'static/first_frames/v_ding.jpg'
+        },
+        'ho': {
+          src: 'static/videos/v_ho.mp4',
+          firstFrame: 'static/first_frames/v_ho.jpg'
+        },
+        'lee': {
+          src: 'static/videos/v_lee.mp4',
+          firstFrame: 'static/first_frames/v_lee.jpg'
+        },
+        'miao': {
+          src: 'static/videos/v_miao.mp4',
+          firstFrame: 'static/first_frames/v_miao.jpg'
+        },
+        'chu': {
+          src: 'static/videos/v_chu.mp4',
+          firstFrame: 'static/first_frames/v_chu.jpg'
+        },
+        'wu': {
+          src: 'static/videos/v_wu.mp4',
+          firstFrame: 'static/first_frames/v_wu.jpg'
+        },
+        'end': {
+          src: 'static/videos/v_end.mp4',
+          firstFrame: 'static/first_frames/v_end.jpg'
+        }
+      },
+      currentPlayVideo: 'static/videos/v_bg.mp4',
+      currentFirstFrame: 'static/first_frames/v_bg.jpg',
+      showWatchReport: false
+    }
+  },
+  methods: {
+    selectVideo (index) {
+      this.currentPlayVideo = this.videoList[index].src
+      this.currentFirstFrame = this.videoList[index].firstFrame
+      this.nowPlayIndex = this.vidoeOrder.indexOf(index)
+      this.handleVideoSelection(index)
+    },
+    moveVideo (control) {
+      if (control === 'backward') {
+        if (this.nowPlayIndex !== 0) {
+          this.nowPlayIndex--
+          this.currentPlayVideo = this.videoList[this.vidoeOrder[this.nowPlayIndex]].src
+          this.currentFirstFrame = this.videoList[this.vidoeOrder[this.nowPlayIndex]].firstFrame
+        }
+      } else {
+        if (this.nowPlayIndex !== this.vidoeOrder.length - 1) {
+          this.nowPlayIndex++
+          this.currentPlayVideo = this.videoList[this.vidoeOrder[this.nowPlayIndex]].src
+          this.currentFirstFrame = this.videoList[this.vidoeOrder[this.nowPlayIndex]].firstFrame
         }
       }
+
+      this.handleVideoSelection(this.vidoeOrder[this.nowPlayIndex])
+    },
+    handleVideoSelection (index) {
+      for (let i in this.videoImageList) {
+        this.videoImageList[i].style = 'none'
+        this.videoImageList[i].opacity = '0.5'
+      }
+      this.videoImageList[index].style = 'solid'
+      this.videoImageList[index].opacity = '0'
+      this.$refs.videoListRef.movingToSelectedVideo(this.nowPlayIndex)
+      this.$children[0].showToggle()
+      this.$children[0].showFirstFrame(true)
+
+      // If it is last video, show the watch report button.
+      let vm = this
+      if (vm.nowPlayIndex === vm.vidoeOrder.length - 1) {
+        setTimeout(function () {
+          vm.showWatchReport = true
+        }, 999)
+      } else {
+        vm.showWatchReport = false
+      }
+
+      // First showing image, then showing video.
+      setTimeout(function () {
+        vm.$children[0].showToggle()
+      }, 333)
+      setTimeout(function () {
+        vm.$children[0].showFirstFrame(false)
+      }, 999)
+
+      this.$parent.$children[0].mutedFlag = true
+    },
+    playNext (progress) {
+      if (progress > 99) {
+        if (this.nowPlayIndex < this.vidoeOrder.length - 1) {
+          this.nowPlayIndex++
+          this.currentPlayVideo = this.videoList[this.vidoeOrder[this.nowPlayIndex]].src
+          this.currentFirstFrame = this.videoList[this.vidoeOrder[this.nowPlayIndex]].firstFrame
+          this.handleVideoSelection(this.vidoeOrder[this.nowPlayIndex])
+        }
+      }
+    },
+    watchReport () {
+      this.$parent.watchReport()
     }
   }
 }
@@ -78,15 +243,155 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: #666666;
+    background-color: #000000;
+    overflow: hidden;
   }
   .video-image {
-    width: 15%;
+    width: 11%;
     height: 100%;
-    margin: 0 5px;
-    border-radius: 25px;
+    margin: 0 3px;
+    border-color: #ffffff;
+    border-width: 2px;
+    border-radius: 7px;
     float: left;
     background-size: cover;
     background-position: top center;
+    color: #ffffff;
+    .video-mask {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 7px;
+      background-color: #000000;
+    }
+    .video-label-wrapper {
+      position: absolute;
+      bottom: 5px;
+      width: 11%;
+      padding: 0 15px;
+
+      .video-label-name {
+        position: relative;
+        text-align: start;
+      }
+      .video-label-title {
+        position: relative;
+        text-align: start;
+      }
+      .video-label-time {
+        position: relative;
+        text-align: end;
+        margin-top: 5px;
+      }
+    }
+  }
+  .move-arrow-left-wrapper {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    width: 35px;
+    height: 100%;
+    .move-arrow-left {
+      position: relative;
+      top: 50%;
+      left: 10px;
+      height: 25px;
+      width: 25px;
+      border-radius: 12.5px;
+      background-color: rgba($color: #000000, $alpha: 0.5);
+      cursor: pointer;
+      &:before, &:after {
+        content: '';
+        height: 8%;
+        width: 50%;
+        position: absolute;
+        // opacity: 0.8;
+        background-color: #ffffff;
+        top: 60%;
+        transform-origin: center;
+        transition: all .3s ease-in-out;
+      }
+      &:before {
+        transform: rotate(40deg);
+        left: 20%;
+      }
+      &:after {
+        transform: rotate(-40deg);
+        left: 20%;
+        top: 30%;
+      }
+    }
+  }
+  .move-arrow-right-wrapper {
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    right: 0;
+    width: 35px;
+    height: 100%;
+    .move-arrow-right {
+      position: relative;
+      top: 50%;
+      height: 25px;
+      width: 25px;
+      border-radius: 12.5px;
+      background-color: rgba($color: #000000, $alpha: 0.5);
+      cursor: pointer;
+      &:before, &:after {
+        content: '';
+        height: 8%;
+        width: 48%;
+        position: absolute;
+        // opacity: 0.8;
+        background-color: #ffffff;
+        top: 60%;
+        transform-origin: center;
+        transition: all .3s ease-in-out;
+      }
+      &:before {
+        transform: rotate(140deg);
+        right: 20%;
+      }
+      &:after {
+        transform: rotate(-140deg);
+        right: 20%;
+        top: 30%;
+      }
+    }
+  }
+  .watch-report-wrapper {
+    position: fixed;
+    z-index: 60;
+    top: 40%;
+    left: calc(50% - 100px);
+    width: 200px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    .watch-report {
+      width: 75%;
+      height: 60%;
+      margin: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-style: solid;
+      border-color: #ffffff;
+      border-width: 1px;
+      border-radius: 5px;
+      color: #ffffff;
+      font-size: 20px;
+    }
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .666s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>

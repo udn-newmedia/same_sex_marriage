@@ -12,9 +12,13 @@
   },
   "dependencies": {
     "d3": "^5.7.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
-    "vue": "^2.5.2"
+    "udn-newmedia-utils": "^1.0.9",
+    "vue": "^2.5.2",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
