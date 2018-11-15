@@ -7,7 +7,7 @@
     <video-head-bar v-if="!reportFlag" :progress="videoPlayProgress"></video-head-bar>
     <video-player v-if="!reportFlag"></video-player>
     <transition name="fade">
-      <report-content v-if="reportFlag"></report-content>
+      <report-content v-show="reportFlag"></report-content>
     </transition>
   </div>
 </template>
@@ -39,13 +39,16 @@ export default {
       this.reportFlag = !this.reportFlag
     },
     calcProgress (progress) {
-      this.videoPlayProgress = progress + '%'
+      this.videoPlayProgress = progress + '%'      
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" <style lang="scss" scoped>
+  #app {
+    background-color: #000000;
+  }
   .fade-enter-active, .fade-leave-active {
     transition: opacity 1.5s;
   }

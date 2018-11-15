@@ -1,10 +1,10 @@
 <template>
   <div class="head-bar-wrapper">
-    <!-- <div class="indicator-bar-wrapper">
+    <div class="indicator-bar-wrapper">
       <div class="indicator-bar-bottom">
         <div class="indicator-bar-top" :style="{width: progress}"></div>
       </div>
-    </div> -->
+    </div>
     <div class="logo-wrapper">
       <div class="logo_box">
         <a href="https://ubrand.udn.com/ubrand/index" target="_blank">
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import Utils from 'udn-newmedia-utils'
+
 export default {
   name: 'VideoHeadBar',
   props: {
@@ -36,6 +38,13 @@ export default {
     videoMuted () {
       this.mutedFlag = !this.mutedFlag
       $('.vertical-video')[0].muted = this.mutedFlag
+
+      window.ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "vertical_video",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [打開聲音按鈕]"
+      })
     }
   }
 }
@@ -52,18 +61,18 @@ export default {
 
   .indicator-bar-wrapper {
     position: relative;
-    height: 8px;
+    height: 2px;
     width: 100%;
-    padding: 3px;
+    // padding: 3px;
 
     .indicator-bar-bottom {
       width: 100%;
       height: 100%;
-      background-color: #888888;
+      // background-color: #888888;
     }
     .indicator-bar-top {
       height: 100%;
-      background-color: #ffffff;
+      background-color: #bf2923;
     }
   }
 
@@ -94,6 +103,7 @@ export default {
       z-index: 100;
       width: 100%;
       height: 100%;
+      cursor: pointer;
 
       .muted-image-wrapper {
         position: relative;

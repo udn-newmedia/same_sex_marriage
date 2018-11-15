@@ -2,7 +2,8 @@
   <div class="video-player-wrapper">
     <vertical-video
       :src="currentPlayVideo"
-      :firstFrame="currentFirstFrame">
+      :firstFrame="currentFirstFrame"
+      :nowPlayIndex="nowPlayIndex">
     </vertical-video>
     <div v-if="nowPlayIndex !== 0"
       class="move-arrow-left-wrapper"
@@ -35,17 +36,17 @@
     </video-list>
     <div class="watch-report-wrapper">
       <transition name="fade">
-        <div v-if="showWatchReport" class="watch-report" @click="watchReport"  key="report">看更多報導</div>
+        <div v-show="showWatchReport" class="watch-report" @click="watchReport"  key="report">看更多報導</div>
       </transition>
       <transition name="fade">
-        <share v-if="showWatchReport" href="https://udn.com/upf/newmedia/2018_data/same_sex_marriage_referendum/index.html" key="share"></share>
+        <share v-show="showWatchReport" href="https://udn.com/upf/newmedia/2018_data/same_sex_marriage_referendum/index.html" key="share"></share>
       </transition>
     </div>
-
   </div>
 </template>
 
 <script>
+import Utils from 'udn-newmedia-utils'
 import VerticalVideo from './VerticalVideo'
 import VideoList from './VideoList'
 import Share from './Share'
@@ -64,8 +65,8 @@ export default {
       videoImageList: {
         'bg': {
           src: 'static/video_images/p_bg.jpg',
-          title: '　',
-          name: '同婚修民法或立專法？候選人怎麼說',
+          title: '同婚修民法或立專法？候選人怎麼說',
+          name: '　',
           time: '0:10',
           style: 'solid',
           opacity: 0
@@ -120,8 +121,8 @@ export default {
         },
         'end': {
           src: 'static/video_images/p_end.jpg',
-          title: '',
-          name: '',
+          title: '看更多報導',
+          name: '　',
           time: '0:10',
           style: 'none',
           opacity: 0.5
@@ -129,39 +130,39 @@ export default {
       },
       videoList: {
         'bg': {
-          src: 'static/videos/v_bg.mp4',
+          src: 'static/videos/v_bg_2.mp4',
           firstFrame: 'static/first_frames/v_bg.jpg'
         },
         'ding': {
-          src: 'static/videos/v_ding.mp4',
+          src: 'static/videos/v_ding_2.mp4',
           firstFrame: 'static/first_frames/v_ding.jpg'
         },
         'ho': {
-          src: 'static/videos/v_ho.mp4',
+          src: 'static/videos/v_ho_2.mp4',
           firstFrame: 'static/first_frames/v_ho.jpg'
         },
         'lee': {
-          src: 'static/videos/v_lee.mp4',
+          src: 'static/videos/v_lee_2.mp4',
           firstFrame: 'static/first_frames/v_lee.jpg'
         },
         'miao': {
-          src: 'static/videos/v_miao.mp4',
+          src: 'static/videos/v_miao_2.mp4',
           firstFrame: 'static/first_frames/v_miao.jpg'
         },
         'chu': {
-          src: 'static/videos/v_chu.mp4',
+          src: 'static/videos/v_chu_2.mp4',
           firstFrame: 'static/first_frames/v_chu.jpg'
         },
         'wu': {
-          src: 'static/videos/v_wu.mp4',
+          src: 'static/videos/v_wu_2.mp4',
           firstFrame: 'static/first_frames/v_wu.jpg'
         },
         'end': {
-          src: 'static/videos/v_end.mp4',
+          src: 'static/videos/v_end_2.mp4',
           firstFrame: 'static/first_frames/v_end.jpg'
         }
       },
-      currentPlayVideo: 'static/videos/v_bg.mp4',
+      currentPlayVideo: 'static/videos/v_bg_2.mp4',
       currentFirstFrame: 'static/first_frames/v_bg.jpg',
       showWatchReport: false
     }
@@ -172,6 +173,7 @@ export default {
       this.currentFirstFrame = this.videoList[index].firstFrame
       this.nowPlayIndex = this.vidoeOrder.indexOf(index)
       this.handleVideoSelection(index)
+      this.gaVideoListClick(index)
     },
     moveVideo (control) {
       if (control === 'backward') {
@@ -199,7 +201,8 @@ export default {
       this.videoImageList[index].opacity = '0'
       this.$refs.videoListRef.movingToSelectedVideo(this.nowPlayIndex)
       this.$children[0].showToggle()
-      this.$children[0].showFirstFrame(true)
+      this.$children[0].gaVideoListTime()
+      // this.$children[0].showFirstFrame(true)
 
       // If it is last video, show the watch report button.
       let vm = this
@@ -215,9 +218,9 @@ export default {
       setTimeout(function () {
         vm.$children[0].showToggle()
       }, 333)
-      setTimeout(function () {
-        vm.$children[0].showFirstFrame(false)
-      }, 999)
+      // setTimeout(function () {
+      //   vm.$children[0].showFirstFrame(false)
+      // }, 999)
 
       this.$parent.$children[0].mutedFlag = true
     },
@@ -233,6 +236,20 @@ export default {
     },
     watchReport () {
       this.$parent.watchReport()
+      window.ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "vertical_video",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [看更多報導按鈕]"
+      })
+    },
+    gaVideoListClick (name) {
+      window.ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "vertical_video",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [影音點擊: " + name + "]"
+      })
     }
   }
 }
@@ -244,7 +261,6 @@ export default {
     width: 100%;
     height: 100%;
     background-color: #000000;
-    overflow: hidden;
   }
   .video-image {
     width: 11%;
@@ -257,6 +273,12 @@ export default {
     background-size: cover;
     background-position: top center;
     color: #ffffff;
+    cursor: pointer;
+    
+    @media screen and (min-width: 769px) {
+      width: 11%;
+      margin: 0 0.7%;
+    }
     .video-mask {
       position: relative;
       width: 100%;
@@ -269,6 +291,12 @@ export default {
       bottom: 5px;
       width: 11%;
       padding: 0 15px;
+      font-size: 12px;
+    
+      @media screen and (min-width: 769px) {
+        width: 10%;
+        margin: 0 0.7%;
+      }
 
       .video-label-name {
         position: relative;
@@ -292,6 +320,7 @@ export default {
     left: 0;
     width: 35px;
     height: 100%;
+    cursor: pointer;
     .move-arrow-left {
       position: relative;
       top: 50%;
@@ -306,7 +335,6 @@ export default {
         height: 8%;
         width: 50%;
         position: absolute;
-        // opacity: 0.8;
         background-color: #ffffff;
         top: 60%;
         transform-origin: center;
@@ -330,6 +358,7 @@ export default {
     right: 0;
     width: 35px;
     height: 100%;
+    cursor: pointer;
     .move-arrow-right {
       position: relative;
       top: 50%;
@@ -343,7 +372,6 @@ export default {
         height: 8%;
         width: 48%;
         position: absolute;
-        // opacity: 0.8;
         background-color: #ffffff;
         top: 60%;
         transform-origin: center;
@@ -366,7 +394,7 @@ export default {
     top: 40%;
     left: calc(50% - 100px);
     width: 200px;
-    height: 100px;
+    height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -375,7 +403,7 @@ export default {
     .watch-report {
       width: 75%;
       height: 60%;
-      margin: 15px;
+      margin: 30px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -385,6 +413,7 @@ export default {
       border-radius: 5px;
       color: #ffffff;
       font-size: 20px;
+      cursor: pointer;
     }
   }
 

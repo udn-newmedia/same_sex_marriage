@@ -10,7 +10,7 @@
     <Content>
       <Share href="https://udn.com/upf/newmedia/2018_data/same_sex_marriage_referendum/index.html"></Share>
       <p><br></p>
-      <p>11月24日九合一選舉投票，民間發起的「平權公投」與「愛家公投」將合併舉行，候選人對婚姻平權的立場也受到高度關注。由於同婚議題敏感，不論是縣市長或議員候選人，大多不願正面表態，僅有少數候選人公開表達立場。時代力量等第三勢力議員候選人多表態挺平權公投，支持修民法保障同婚；國民黨多名縣市長和議員候選人則支持另立專法。</p>
+      <p>11月24日九合一選舉投票，民間發起的「平權公投」與「愛家公投」將合併舉行，候選人對婚姻平權的立場也受到高度關注。由於同婚議題敏感，不論是縣市長或議員候選人，大多不願正面表態，僅有少數候選人公開表達立場。<strong>時代力量等第三勢力議員候選人多表態挺平權公投，支持修民法保障同婚；國民黨多名縣市長和議員候選人則支持另立專法。</strong></p>
       <p><br></p>
       <p><br></p>
       <ColumnOne
@@ -51,7 +51,7 @@
       <p><br></p>
       <ColumnOne
         description="愛家盟列出縣市長候選人推薦名單。圖／截自愛家盟網站"
-        src="./static/longform_assets/SectionBg/m-3.jpg"
+        src="./static/longform_assets/SectionBg/m-3_2.jpg"
         src-web="./static/longform_assets/SectionBg/w-3.jpg">
       </ColumnOne>
       <p><br></p>
@@ -74,15 +74,15 @@
       </ColumnOne>
       <p><br></p>
       <p><br></p>
-      <h2>侯友宜：相愛的人應得到祝福 蘇貞昌支持同婚</h2>
+      <h2>侯友宜、蘇貞昌：修法或立專法，待凝聚共識</h2>
       <p><br></p>
-      <p>是否支持同性婚姻平權？國民黨新北市長候選人<span style="background-color: #f0e610">侯友宜</span>未正面回應，他表示，「所有相愛的人都應該得到祝福。」大法官釋字第748號已經解釋，同性婚姻須由立法機關立法，「不管是修民法、立專法、立專章，我希望立法院盡快凝聚社會共識。」</p>
+      <p>是否支持同性婚姻平權？國民黨新北市長候選人<span style="background-color: #f0e610">侯友宜</span>維持一貫回答，他表示，「所有相愛的人都應該得到祝福。」大法官釋字第748號已經解釋，同性婚姻須由立法機關立法，「不管是修民法、立專法、立專章，我希望立法院盡快凝聚社會共識。」</p>
       <p><br></p>
-      <p>民進黨新北市長候選人<span style="background-color: #f0e610">蘇貞昌</span>曾接受媒體專訪表示「同婚，民進黨是支持的，我也支持。」但修民法或立專法，應由立院尋求共識。</p>
+      <p>民進黨新北市長候選人<span style="background-color: #f0e610">蘇貞昌</span>曾接受中央社專訪表示「同婚，民進黨是支持的，我也支持。」但修民法或立專法，應由立院尋求共識。</p>
       <p><br></p>
       <p><br></p>
       <Column-One
-        description="新北市長候選人侯友宜（左）對同婚議題不正面表態，蘇貞昌表示支持同婚。"
+        description="新北市長候選人侯友宜（左）和蘇貞昌針對同婚修法或立專法，都表示應由立法院尋求社會共識。"
         src="./static/longform_assets/SectionBg/m-5.jpg"
         src-web="./static/longform_assets/SectionBg/w-5.jpg">
       </Column-One>
@@ -90,7 +90,7 @@
       <p><br></p>
       <h2>時力、小黨議員候選人支持修民法</h2>
       <p><br></p>
-      <p>根據同志人權立場觀測站資料，截自11月13日，<b>全台1745位議員候選人中，表態支持立專法保障同婚的有269位，支持修民法的有98位。</b>由於時代力量、社民黨全黨表態力挺同婚，包括32位時代力量議員候選人、以及5位社民黨議員候選人都表態支持修民法。此外，多位綠黨、基進黨、無黨籍「歐巴桑聯盟」議員候選人也都支持同婚入民法。<a style="text-decoration:underline;" target="_blank" href="http://pridewatch.tw/beta/2018_councillor_candidates">看統計結果</a></p>
+      <p>根據同志人權立場觀測站資料，截至11月13日，<b>全台1745位議員候選人中，表態支持立專法保障同婚的有269位，支持修民法的有98位。</b>由於時代力量、社民黨全黨表態力挺同婚，包括32位時代力量議員候選人、以及5位社民黨議員候選人都表態支持修民法。此外，多位綠黨、基進黨、無黨籍「歐巴桑聯盟」議員候選人也都支持同婚入民法。<a style="text-decoration:underline;" target="_blank" href="http://pridewatch.tw/beta/2018_councillor_candidates">看統計結果</a></p>
       <p><br></p>
       <p>根據愛家資訊平台，截至11月13日，全台有<a style="text-decoration:underline;" target="_blank" href="https://voteforfamily.net/%E8%AD%B0%E5%93%A1%E6%8E%A8%E8%96%A6%E5%B0%88%E5%8D%80/">273位議員候選人</a>在愛家盟推薦的名單中。愛家盟表示，如果要列在愛家推薦名單內，候選人必須有具體公開的守護教育行為，或是支持愛家公投，符合兩項標準之一，就會被加入推薦名單。</p>
       <p><br></p>

@@ -14,7 +14,7 @@
           <span :style="{ backgroundColor: setProps('iconColor') }"></span>
         </div>
       </div>
-      <div class="back-to-video" @click="backToVideo">回影片</div>
+      <div class="back-to-video" @click="backToVideo">看影音</div>
     </div>
     <div class="menu_list" @click="handle_Burger()" :class="{'menu_list-show': showMenuList}">
       <div class="link_box">
@@ -145,6 +145,12 @@ export default {
     },
     backToVideo () {
       this.$parent.reportFlag = false
+      window.ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "vertical_video",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [看影音按鈕]"
+      })
     }
   },
   created () {
@@ -521,6 +527,7 @@ export default {
   align-items: center;
   padding: 0 10px;
   font-size: 20px;
+  cursor: pointer;
 }
 .back-to-video:hover {
   background-color: #000000;

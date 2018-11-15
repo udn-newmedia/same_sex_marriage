@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import Utils from 'udn-newmedia-utils'
 import * as d3 from 'd3'
 
 export default {
@@ -25,7 +26,9 @@ export default {
       previousListPostion: 0,
       toggleDragPixel: 0,
       toggleExtent: 0.55,
-      isListToggle: true
+      isListToggle: true,
+      specialDownCase: false,
+      specialUpCase: false
     }
   },
   computed: {
@@ -44,7 +47,6 @@ export default {
     listHeight: function () {
       return this.$refs.videoListRef.clientHeight
     }
-
   },
   methods: {
     assignHorizontalDragEvent (vm) {
@@ -107,12 +109,12 @@ export default {
       let clickStartPoint = 0
       let currentListPostion = 0
       let tremblePixel = 5
-      // let videoList = d3.select('.video-image-wrapper')
-      //   .call(d3.drag()
-      //     .on('start', dragStarted)
-      //     .on('drag', dragged)
-      //     .on('end', dragEnded)
-      //   )
+      let videoList = d3.select('.video-image-wrapper')
+        .call(d3.drag()
+          .on('start', dragStarted)
+          .on('drag', dragged)
+          .on('end', dragEnded)
+        )
     },
     assignVerticalDragEvent (vm) {
       function dragStarted () {
@@ -121,16 +123,37 @@ export default {
 
       function dragged () {
         if (vm.isListToggle) {
-          currentListPostion = d3.event.y - clickStartPoint
+          // dragging up or dragging down
+          if (d3.event.y - clickStartPoint < 0) {
+            currentListPostion = 0
+            vm.specialUpCase = true
+          } else {
+            currentListPostion = d3.event.y - clickStartPoint
+          }
         } else {
-          currentListPostion = d3.event.y - clickStartPoint + vm.listHeight * 0.8
+          // dragging up or dragging down
+          if (d3.event.y - clickStartPoint < 0) {
+            currentListPostion = d3.event.y - clickStartPoint + vm.listHeight * 0.8
+          } else {
+            currentListPostion = vm.listHeight * vm.toggleExtent
+            vm.specialDownCase = true
+          }
         }
+
         vm.toggleDragPixel = currentListPostion
+
+        // if (vm.specialDownCase) {
+        //   vm.toggleDragPixel = currentListPostion + vm.listHeight * 0.8
+        // } else {
+        //   vm.toggleDragPixel = currentListPostion
+        // }
       }
 
       function dragEnded () {
         if (d3.event.y - clickStartPoint !== 0) {
           event.preventDefault()
+
+          // dragging down or dragging up
           if (d3.event.y - clickStartPoint > 1) {
             vm.videoTranslation(666, vm.toggleDragPixel, vm.listHeight * vm.toggleExtent)
             d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
@@ -144,12 +167,12 @@ export default {
           } else {
             vm.isListToggle = true
           }
+          vm.gaVideoListToggle(vm.isListToggle === true ? '展開' : '收合')
         }
       }
 
       let clickStartPoint = 0
       let currentListPostion = 0
-      // let toggleExtent = window.innerWidth / window.innerHeight < 0.55 ? 0.5 : 0.8
 
       let videoList = d3.select('.video-list-wrapper')
         .call(d3.drag()
@@ -173,16 +196,19 @@ export default {
       // Folding the video list.
       let vm = this
       let videoList = d3.select('.video-list-wrapper')
-      videoList
-        .transition()
-        .ease(d3.easeQuad)
-        .duration(333)
-        .tween('number', function () {
-          let k = d3.interpolateRound(startPosition, endPosition)
-          return function (t) {
-            vm.dragPixel = k(t)
-          }
-        })
+
+      if (window.innerWidth <= 768) {
+        videoList
+          .transition()
+          .ease(d3.easeQuad)
+          .duration(333)
+          .tween('number', function () {
+            let k = d3.interpolateRound(startPosition, endPosition)
+            return function (t) {
+              vm.dragPixel = k(t)
+            }
+          })
+      }
 
       setTimeout(function () {
         vm.foldVideoList()
@@ -192,15 +218,25 @@ export default {
       let from = 0
       let end = this.listHeight * this.toggleExtent
 
-      if (this.isListToggle) {
-        this.videoTranslation(666, from, end)
-        d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
-        this.isListToggle = false
+      if (this.specialDownCase) {
+          this.videoTranslation(666, end, from)
+          d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
+          this.isListToggle = true
+          this.specialDownCase = false
       } else {
-        this.videoTranslation(666, end, from)
-        d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
-        this.isListToggle = true
+        if (this.isListToggle) {
+          this.videoTranslation(666, from, end)
+          d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
+          this.isListToggle = false
+        } else {
+          this.videoTranslation(666, end, from)
+          d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
+          this.isListToggle = true
+        }
+
+        this.gaVideoListToggle(this.isListToggle === true ? '展開' : '收合')
       }
+        
     },
     foldVideoList () {
       let from = this.isListToggle === false ? this.listHeight * this.toggleExtent : 0
@@ -223,11 +259,21 @@ export default {
             vm.toggleDragPixel = k(t)
           }
         })
+    },
+    gaVideoListToggle (toggle) {
+      window.ga("newmedia.send", {
+        "hitType": "event",
+        "eventCategory": "vertical_video",
+        "eventAction": "click",
+        "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [影片列表" + toggle + "]"
+      })
     }
   },
   mounted () {
     let vm = this
-    this.assignHorizontalDragEvent(vm)
+    if (window.innerWidth <= 768) {
+      this.assignHorizontalDragEvent(vm)
+    }
     this.assignVerticalDragEvent(vm)
   }
 }
@@ -237,6 +283,7 @@ export default {
   .video-list-wrapper {
     position: fixed;
     z-index: 40;
+    left: 0;
     bottom: 0;
     width: 100%;
     background-image: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
@@ -249,12 +296,13 @@ export default {
   }
   .supplemental-block {
     position: relative;
+    z-index: 15;
     width: 100%;
     height: 30%;
   }
   .video-list-split-wrapper {
     position: relative;
-    z-index: 20;
+    z-index: 50;
     width: 100%;
     height: 20%;
     display: flex;
@@ -262,10 +310,13 @@ export default {
     justify-content: center;
     align-items: center;
     padding: 10px 0;
+    cursor: pointer;
     .video-list-split-line {
+      position: absolute;
+      left: 0;
+      bottom: 10px;
       width: 99%;
       height: 1px;
-      // opacity: 0.8;
       background-color: #ffffff;
     }
   }
@@ -275,14 +326,16 @@ export default {
     width: 350%;
     height: 80%;
     overflow: hidden;
+    @media screen and (min-width: 769px) {
+      width: 100%;
+    }
   }
 
   .toggle-arrow {
+    position: absolute;
     height: 25px;
     width: 25px;
-    position: relative;
-    margin: 10px 20px;
-    cursor: pointer;
+    top: 0;
     animation: arrow 999ms infinite ease-out;
     &:before, &:after {
       content: '';
@@ -296,21 +349,21 @@ export default {
       transition: all .3s ease-in-out;
     }
     &:before {
-      transform: rotate(230deg);
-      left: 11%;
+      transform: rotate(230deg) scale(1.5);
+      left: 6%;
     }
     &:after {
-      transform: rotate(-230deg);
-      right: 11%;
+      transform: rotate(-230deg) scale(1.5);
+      right: 6%;
     }
     &-down {
       &:before {
         animation: LeftSlide .3s ease-in-out, LeftDown .3s ease-in-out;
-        transform: rotate(132deg);
+        transform: rotate(132deg) scale(1.5);;
       }
       &:after {
         animation: RightSlide .3s ease-in-out, RightDown .3s ease-in-out;
-        transform: rotate(-132deg);
+        transform: rotate(-132deg) scale(1.5);;
       }
     }
   }
