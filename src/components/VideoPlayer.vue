@@ -34,7 +34,7 @@
         </div>
       </div>
     </video-list>
-    <div class="watch-report-wrapper">
+    <div class="watch-report-wrapper" v-show="showWatchReport">
       <transition name="fade">
         <div v-show="showWatchReport" class="watch-report" @click="watchReport"  key="report">看更多報導</div>
       </transition>
@@ -200,8 +200,10 @@ export default {
       this.videoImageList[index].style = 'solid'
       this.videoImageList[index].opacity = '0'
       this.$refs.videoListRef.movingToSelectedVideo(this.nowPlayIndex)
+      
       this.$children[0].showToggle()
       this.$children[0].gaVideoListTime()
+      this.$parent.$children[1].setMute()
       // this.$children[0].showFirstFrame(true)
 
       // If it is last video, show the watch report button.
@@ -221,8 +223,6 @@ export default {
       // setTimeout(function () {
       //   vm.$children[0].showFirstFrame(false)
       // }, 999)
-
-      this.$parent.$children[0].mutedFlag = true
     },
     playNext (progress) {
       if (progress > 99) {
@@ -336,18 +336,18 @@ export default {
         width: 50%;
         position: absolute;
         background-color: #ffffff;
-        top: 60%;
+        top: 57%;
         transform-origin: center;
         transition: all .3s ease-in-out;
       }
       &:before {
-        transform: rotate(40deg);
+        transform: rotate(40deg) scale(0.8);
         left: 20%;
       }
       &:after {
-        transform: rotate(-40deg);
+        transform: rotate(-40deg) scale(0.8);
         left: 20%;
-        top: 30%;
+        top: 33%;
       }
     }
   }
@@ -373,18 +373,18 @@ export default {
         width: 48%;
         position: absolute;
         background-color: #ffffff;
-        top: 60%;
+        top: 57%;
         transform-origin: center;
         transition: all .3s ease-in-out;
       }
       &:before {
-        transform: rotate(140deg);
+        transform: rotate(140deg) scale(0.8);
         right: 20%;
       }
       &:after {
-        transform: rotate(-140deg);
+        transform: rotate(-140deg) scale(0.8);
         right: 20%;
-        top: 30%;
+        top: 33%;
       }
     }
   }
@@ -403,7 +403,7 @@ export default {
     .watch-report {
       width: 75%;
       height: 60%;
-      margin: 30px;
+      margin: 35px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -412,7 +412,7 @@ export default {
       border-width: 1px;
       border-radius: 5px;
       color: #ffffff;
-      font-size: 20px;
+      font-size: 22px;
       cursor: pointer;
     }
   }

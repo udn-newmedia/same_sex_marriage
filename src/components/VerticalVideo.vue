@@ -8,9 +8,15 @@
             id="vertical-video"
             ref="verticalVideoRef"
             :src="src"
-            :poster="firstFrame"
-            key="video">
+            :poster="firstFrame">
           </video>
+          <!-- <video v-show="show"
+            playsinline muted autoplay controls
+            class="vertical-video"
+            id="vertical-video"
+            ref="verticalVideoRef"
+            :src="src">
+          </video> -->
         </transition>
         <!-- <div class="video-first-frame-wrapper" key="image">
           <img v-show="firstFrameShow" :src="firstFrame" class="video-first-frame">
@@ -154,7 +160,8 @@ export default {
   }
   @keyframes fade-in {
     0% {
-      opacity: 0.3;
+      opacity: 0;
+      
     }
     100% {
       opacity: 1;

@@ -26,9 +26,7 @@ export default {
       previousListPostion: 0,
       toggleDragPixel: 0,
       toggleExtent: 0.55,
-      isListToggle: true,
-      specialDownCase: false,
-      specialUpCase: false
+      isListToggle: true
     }
   },
   computed: {
@@ -123,54 +121,51 @@ export default {
 
       function dragged () {
         if (vm.isListToggle) {
+          currentListPostion = d3.event.y - clickStartPoint
           // dragging up or dragging down
           if (d3.event.y - clickStartPoint < 0) {
             currentListPostion = 0
-            vm.specialUpCase = true
+            specialCaseFlag = true
           } else {
             currentListPostion = d3.event.y - clickStartPoint
+            specialCaseFlag = false
           }
         } else {
+          currentListPostion = d3.event.y - clickStartPoint + vm.listHeight * 0.8
           // dragging up or dragging down
           if (d3.event.y - clickStartPoint < 0) {
             currentListPostion = d3.event.y - clickStartPoint + vm.listHeight * 0.8
+            specialCaseFlag = false
           } else {
             currentListPostion = vm.listHeight * vm.toggleExtent
-            vm.specialDownCase = true
+            specialCaseFlag = true
           }
         }
-
         vm.toggleDragPixel = currentListPostion
-
-        // if (vm.specialDownCase) {
-        //   vm.toggleDragPixel = currentListPostion + vm.listHeight * 0.8
-        // } else {
-        //   vm.toggleDragPixel = currentListPostion
-        // }
       }
 
       function dragEnded () {
-        if (d3.event.y - clickStartPoint !== 0) {
-          event.preventDefault()
-
-          // dragging down or dragging up
-          if (d3.event.y - clickStartPoint > 1) {
-            vm.videoTranslation(666, vm.toggleDragPixel, vm.listHeight * vm.toggleExtent)
-            d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
-          } else if (d3.event.y - clickStartPoint < -1) {
-            vm.videoTranslation(666, vm.toggleDragPixel, 0)
-            d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
+        if (!specialCaseFlag) {
+          if (d3.event.y - clickStartPoint !== 0) {
+            event.preventDefault()
+            if (d3.event.y - clickStartPoint > 1) {
+              vm.videoTranslation(666, vm.toggleDragPixel, vm.listHeight * vm.toggleExtent)
+              d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
+            } else if (d3.event.y - clickStartPoint < -1) {
+              vm.videoTranslation(666, vm.toggleDragPixel, 0)
+              d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
+            }
+            if (vm.isListToggle) {
+              vm.isListToggle = false
+            } else {
+              vm.isListToggle = true
+            }
+            vm.gaVideoListToggle(vm.isListToggle === true ? '展開' : '收合')
           }
-
-          if (vm.isListToggle) {
-            vm.isListToggle = false
-          } else {
-            vm.isListToggle = true
-          }
-          vm.gaVideoListToggle(vm.isListToggle === true ? '展開' : '收合')
         }
       }
 
+      let specialCaseFlag = false
       let clickStartPoint = 0
       let currentListPostion = 0
 
@@ -215,28 +210,21 @@ export default {
       }, 666)
     },
     toggleVideoList () {
+      event.preventDefault()
+
       let from = 0
       let end = this.listHeight * this.toggleExtent
-
-      if (this.specialDownCase) {
-          this.videoTranslation(666, end, from)
-          d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
-          this.isListToggle = true
-          this.specialDownCase = false
+      if (this.isListToggle) {
+        this.videoTranslation(666, from, end)
+        d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
+        this.isListToggle = false
       } else {
-        if (this.isListToggle) {
-          this.videoTranslation(666, from, end)
-          d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', true)
-          this.isListToggle = false
-        } else {
-          this.videoTranslation(666, end, from)
-          d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
-          this.isListToggle = true
-        }
-
-        this.gaVideoListToggle(this.isListToggle === true ? '展開' : '收合')
+        this.videoTranslation(666, end, from)
+        d3.selectAll('.toggle-arrow').classed('toggle-arrow-down', false)
+        this.isListToggle = true
       }
-        
+
+      this.gaVideoListToggle(this.isListToggle === true ? '展開' : '收合')
     },
     foldVideoList () {
       let from = this.isListToggle === false ? this.listHeight * this.toggleExtent : 0
@@ -302,7 +290,7 @@ export default {
   }
   .video-list-split-wrapper {
     position: relative;
-    z-index: 50;
+    z-index: 70;
     width: 100%;
     height: 20%;
     display: flex;

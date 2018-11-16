@@ -4,8 +4,10 @@
     <head-bar v-if="reportFlag">
       <a slot="logo" href="https://vision.udn.com/"></a>
     </head-bar>
-    <video-head-bar v-if="!reportFlag" :progress="videoPlayProgress"></video-head-bar>
-    <video-player v-if="!reportFlag"></video-player>
+    <video-indicator v-if="!reportFlag" :progress="videoPlayProgress"></video-indicator>
+    <video-head-bar v-if="!reportFlag"></video-head-bar>
+    <video-player v-if="!reportFlag">
+    </video-player>
     <transition name="fade">
       <report-content v-show="reportFlag"></report-content>
     </transition>
@@ -17,6 +19,7 @@ import HeadBar from './components/HeadBar'
 import Indicator from './components/Indicator'
 import ReportContent from './components/ReportContent'
 import VideoHeadBar from './components/VideoHeadBar'
+import VideoIndicator from './components/VideoIndicator'
 import VideoPlayer from './components/VideoPlayer'
 
 export default {
@@ -26,11 +29,12 @@ export default {
     Indicator,
     ReportContent,
     VideoHeadBar,
+    VideoIndicator,
     VideoPlayer
   },
   data () {
     return {
-      videoPlayProgress: '',
+      videoPlayProgress: '50%',
       reportFlag: false
     }
   },

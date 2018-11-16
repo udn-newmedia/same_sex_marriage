@@ -14,7 +14,10 @@
           <span :style="{ backgroundColor: setProps('iconColor') }"></span>
         </div>
       </div>
-      <div class="back-to-video" @click="backToVideo">看影音</div>
+      <div class="outlink-wrapper">
+        <div class="back-to-video" @click="backToVideo">看影音</div>
+        <div class="back-to-video"><a href="https://udn.com/vote2018/index" target="_blank">選舉專區</a></div>  
+      </div>
     </div>
     <div class="menu_list" @click="handle_Burger()" :class="{'menu_list-show': showMenuList}">
       <div class="link_box">
@@ -518,9 +521,16 @@ export default {
   padding: 2.5px;
   opacity: .8;
 }
-.back-to-video {
+.outlink-wrapper {
   position: absolute;
   right: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.back-to-video {
+  position: relative;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -528,6 +538,14 @@ export default {
   padding: 0 10px;
   font-size: 20px;
   cursor: pointer;
+  a {
+    color: #000000;
+  }
+  a:hover {
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+  }
 }
 .back-to-video:hover {
   background-color: #000000;
