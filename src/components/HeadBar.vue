@@ -146,14 +146,15 @@ export default {
         "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [圓形logo點擊]]"
       })
     },
-    backToVideo () {
-      this.$parent.reportFlag = false
+    backToVideo () {    
       window.ga("newmedia.send", {
         "hitType": "event",
         "eventCategory": "vertical_video",
         "eventAction": "click",
         "eventLabel": "[" + Utils.detectPlatform() + "] [" + document.querySelector('title').innerHTML + "] [看影音按鈕]"
       })
+
+      window.location.reload()
     }
   },
   created () {
@@ -537,6 +538,7 @@ export default {
   align-items: center;
   padding: 0 10px;
   font-size: 20px;
+  color: #000000;
   cursor: pointer;
   a {
     color: #000000;

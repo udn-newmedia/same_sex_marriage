@@ -5,6 +5,9 @@
       :firstFrame="currentFirstFrame"
       :nowPlayIndex="nowPlayIndex">
     </vertical-video>
+    <div v-show="nowPlayIndex === 0" class="first-share">
+      <share href="https://udn.com/upf/newmedia/2018_data/same_sex_marriage_referendum/index.html"></share>
+    </div>
     <div v-if="nowPlayIndex !== 0"
       class="move-arrow-left-wrapper"
       @click="moveVideo('backward')">
@@ -36,7 +39,7 @@
     </video-list>
     <div class="watch-report-wrapper" v-show="showWatchReport">
       <transition name="fade">
-        <div v-show="showWatchReport" class="watch-report" @click="watchReport"  key="report">看更多報導</div>
+        <div v-show="showWatchReport" class="watch-report" @click="watchReport"  key="report">看專題報導</div>
       </transition>
       <transition name="fade">
         <share v-show="showWatchReport" href="https://udn.com/upf/newmedia/2018_data/same_sex_marriage_referendum/index.html" key="share"></share>
@@ -64,7 +67,7 @@ export default {
       nowPlayIndex: 0,
       videoImageList: {
         'bg': {
-          src: 'static/video_images/p_bg.jpg',
+          src: 'static/video_images/p_bg_2.jpg',
           title: '同婚修民法或立專法？候選人怎麼說',
           name: '　',
           time: '0:10',
@@ -120,8 +123,8 @@ export default {
           opacity: 0.5
         },
         'end': {
-          src: 'static/video_images/p_end.jpg',
-          title: '看更多報導',
+          src: 'static/video_images/p_end_2.jpg',
+          title: '看專題報導',
           name: '　',
           time: '0:10',
           style: 'none',
@@ -130,50 +133,62 @@ export default {
       },
       videoList: {
         'bg': {
-          src: 'static/videos/v_bg_2.mp4',
-          firstFrame: 'static/first_frames/v_bg.jpg'
+          src: 'static/videos/v_bg_4.mp4',
+          firstFrame: 'static/first_frames/v_bg_3.jpg'
         },
         'ding': {
-          src: 'static/videos/v_ding_2.mp4',
+          src: 'static/videos/v_ding_3.mp4',
           firstFrame: 'static/first_frames/v_ding.jpg'
         },
         'ho': {
-          src: 'static/videos/v_ho_2.mp4',
+          src: 'static/videos/v_ho_3.mp4',
           firstFrame: 'static/first_frames/v_ho.jpg'
         },
         'lee': {
-          src: 'static/videos/v_lee_2.mp4',
+          src: 'static/videos/v_lee_3.mp4',
           firstFrame: 'static/first_frames/v_lee.jpg'
         },
         'miao': {
-          src: 'static/videos/v_miao_2.mp4',
+          src: 'static/videos/v_miao_3.mp4',
           firstFrame: 'static/first_frames/v_miao.jpg'
         },
         'chu': {
-          src: 'static/videos/v_chu_2.mp4',
+          src: 'static/videos/v_chu_3.mp4',
           firstFrame: 'static/first_frames/v_chu.jpg'
         },
         'wu': {
-          src: 'static/videos/v_wu_2.mp4',
+          src: 'static/videos/v_wu_3.mp4',
           firstFrame: 'static/first_frames/v_wu.jpg'
         },
         'end': {
-          src: 'static/videos/v_end_2.mp4',
-          firstFrame: 'static/first_frames/v_end.jpg'
+          src: 'static/videos/v_end_3.mp4',
+          firstFrame: 'static/first_frames/v_end_2.jpg'
         }
       },
-      currentPlayVideo: 'static/videos/v_bg_2.mp4',
-      currentFirstFrame: 'static/first_frames/v_bg.jpg',
+      currentPlayVideo: 'static/videos/v_bg_4.mp4',
+      currentFirstFrame: 'static/first_frames/v_bg_3.jpg',
       showWatchReport: false
     }
   },
   methods: {
+    handleHeadBarColor () {
+      if (this.nowPlayIndex === 0 || this.nowPlayIndex === 7) {
+        this.$parent.$children[1].chooseLogoColor(false)
+        this.$parent.$children[1].chooseMuteOffColor(false)
+        this.$parent.$children[1].chooseMuteOnColor(false)
+      } else {
+        this.$parent.$children[1].chooseLogoColor(true)
+        this.$parent.$children[1].chooseMuteOffColor(true)
+        this.$parent.$children[1].chooseMuteOnColor(true) 
+      }
+    },
     selectVideo (index) {
-      this.currentPlayVideo = this.videoList[index].src
       this.currentFirstFrame = this.videoList[index].firstFrame
+      this.currentPlayVideo = this.videoList[index].src
       this.nowPlayIndex = this.vidoeOrder.indexOf(index)
       this.handleVideoSelection(index)
       this.gaVideoListClick(index)
+      this.handleHeadBarColor()
     },
     moveVideo (control) {
       if (control === 'backward') {
@@ -189,7 +204,7 @@ export default {
           this.currentFirstFrame = this.videoList[this.vidoeOrder[this.nowPlayIndex]].firstFrame
         }
       }
-
+      this.handleHeadBarColor()
       this.handleVideoSelection(this.vidoeOrder[this.nowPlayIndex])
     },
     handleVideoSelection (index) {
@@ -204,7 +219,6 @@ export default {
       this.$children[0].showToggle()
       this.$children[0].gaVideoListTime()
       this.$parent.$children[1].setMute()
-      // this.$children[0].showFirstFrame(true)
 
       // If it is last video, show the watch report button.
       let vm = this
@@ -216,13 +230,9 @@ export default {
         vm.showWatchReport = false
       }
 
-      // First showing image, then showing video.
       setTimeout(function () {
         vm.$children[0].showToggle()
-      }, 333)
-      // setTimeout(function () {
-      //   vm.$children[0].showFirstFrame(false)
-      // }, 999)
+      }, 666)
     },
     playNext (progress) {
       if (progress > 99) {
@@ -231,6 +241,7 @@ export default {
           this.currentPlayVideo = this.videoList[this.vidoeOrder[this.nowPlayIndex]].src
           this.currentFirstFrame = this.videoList[this.vidoeOrder[this.nowPlayIndex]].firstFrame
           this.handleVideoSelection(this.vidoeOrder[this.nowPlayIndex])
+          this.handleHeadBarColor()
         }
       }
     },
@@ -388,10 +399,20 @@ export default {
       }
     }
   }
+  .first-share {
+    position: fixed;
+    z-index: 60;
+    width: 100%;
+    top: 10%;
+    left: 7%;
+    @media screen and (min-width: 768px) {
+      left: calc(50% - (45vh * 0.5625));
+    }
+  }
   .watch-report-wrapper {
     position: fixed;
     z-index: 60;
-    top: 40%;
+    top: 30%;
     left: calc(50% - 100px);
     width: 200px;
     height: 150px;
@@ -402,8 +423,8 @@ export default {
 
     .watch-report {
       width: 75%;
-      height: 60%;
-      margin: 35px;
+      height: 30%;
+      margin: 20px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -412,7 +433,7 @@ export default {
       border-width: 1px;
       border-radius: 5px;
       color: #ffffff;
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
     }
   }

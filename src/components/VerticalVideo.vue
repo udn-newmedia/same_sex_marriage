@@ -10,17 +10,7 @@
             :src="src"
             :poster="firstFrame">
           </video>
-          <!-- <video v-show="show"
-            playsinline muted autoplay controls
-            class="vertical-video"
-            id="vertical-video"
-            ref="verticalVideoRef"
-            :src="src">
-          </video> -->
         </transition>
-        <!-- <div class="video-first-frame-wrapper" key="image">
-          <img v-show="firstFrameShow" :src="firstFrame" class="video-first-frame">
-        </div> -->
     </div>
   </div>
 </template>
@@ -80,17 +70,12 @@ export default {
       } else if (time > 30 && time <= 35){
         this.currentMaxLevel = 35
       }
-    },
-    // showFirstFrame (flag) {
-    //   this.firstFrameShow = flag
-    // },
+    }
   },
   mounted () {
     let vm = this
     let currentMaxLevel = 5
     this.$refs.verticalVideoRef.ontimeupdate = function () {
-      // $('.vertical-video')[0].muted = false
-
       // Handling GA.
       vm.updataCurrentMaxTime (this.currentTime)
       
@@ -156,12 +141,11 @@ export default {
   // }
 
   .fadeIn-enter-active, .fadeIn-leave-to {
-    animation: fade-in .666s;
+    animation: fade-in ease-in-out .666s;
   }
   @keyframes fade-in {
     0% {
-      opacity: 0;
-      
+      opacity: 0.3;
     }
     100% {
       opacity: 1;

@@ -346,11 +346,11 @@ export default {
     }
     &-down {
       &:before {
-        animation: LeftSlide .3s ease-in-out, LeftDown .3s ease-in-out;
+        // animation: LeftSlide .3s ease-in-out, LeftDown .3s ease-in-out;
         transform: rotate(132deg) scale(1.5);;
       }
       &:after {
-        animation: RightSlide .3s ease-in-out, RightDown .3s ease-in-out;
+        // animation: RightSlide .3s ease-in-out, RightDown .3s ease-in-out;
         transform: rotate(-132deg) scale(1.5);;
       }
     }

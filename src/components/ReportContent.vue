@@ -40,7 +40,7 @@
       <p><br></p>
       <h2>縣市長候選人 30位挺專法、4位挺民法</h2>
       <p><br></p>
-      <p>根據同志人權立場觀測站資料，列出全台各縣市長及議員候選人對同性婚姻的立場。截至11月13日，全台96位縣市長候選人中，表態支持另立專法的有30位，支持修改民法的有4位，其餘近六成五的候選人大多未明確表態。<a style="text-decoration:underline;" target="_blank" href="http://pridewatch.tw/beta/2018_mayor_election">見統計結果</a></p>
+      <p>根據同志人權立場觀測站資料，列出全台各縣市長及議員候選人對同性婚姻的立場。截至11月19日，全台96位縣市長候選人中，表態支持另立專法的有30位，支持修改民法的有4位，其餘近六成五的候選人大多未明確表態。<a style="text-decoration:underline;" target="_blank" href="http://pridewatch.tw/beta/2018_mayor_election">見統計結果</a></p>
       <p><br></p>
       <p>挺「立專法」的多為藍營候選人，共有16位，六都市長候選人中包括<b>台北市長候選人丁守中、台中市長候選人盧秀燕、台南市長候選人高思博、高雄市長候選人韓國瑜，都支持立專法保障同婚。</b></p>
       <p><br></p>
@@ -90,9 +90,9 @@
       <p><br></p>
       <h2>時力、小黨議員候選人支持修民法</h2>
       <p><br></p>
-      <p>根據同志人權立場觀測站資料，截至11月13日，<b>全台1745位議員候選人中，表態支持立專法保障同婚的有269位，支持修民法的有98位。</b>由於時代力量、社民黨全黨表態力挺同婚，包括32位時代力量議員候選人、以及5位社民黨議員候選人都表態支持修民法。此外，多位綠黨、基進黨、無黨籍「歐巴桑聯盟」議員候選人也都支持同婚入民法。<a style="text-decoration:underline;" target="_blank" href="http://pridewatch.tw/beta/2018_councillor_candidates">看統計結果</a></p>
+      <p>根據同志人權立場觀測站資料，截至11月19日，<b>全台1745位議員候選人中，表態支持立專法保障同婚的有269位，支持修民法的有100位。</b>由於時代力量、社民黨全黨表態力挺同婚，包括32位時代力量議員候選人、以及5位社民黨議員候選人都表態支持修民法。此外，多位綠黨、基進黨、無黨籍「歐巴桑聯盟」議員候選人也都支持同婚入民法。<a style="text-decoration:underline;" target="_blank" href="http://pridewatch.tw/beta/2018_councillor_candidates">看統計結果</a></p>
       <p><br></p>
-      <p>根據愛家資訊平台，截至11月13日，全台有<a style="text-decoration:underline;" target="_blank" href="https://voteforfamily.net/%E8%AD%B0%E5%93%A1%E6%8E%A8%E8%96%A6%E5%B0%88%E5%8D%80/">273位議員候選人</a>在愛家盟推薦的名單中。愛家盟表示，如果要列在愛家推薦名單內，候選人必須有具體公開的守護教育行為，或是支持愛家公投，符合兩項標準之一，就會被加入推薦名單。</p>
+      <p>根據愛家資訊平台，截至11月19日，全台有<a style="text-decoration:underline;" target="_blank" href="https://voteforfamily.net/%E8%AD%B0%E5%93%A1%E6%8E%A8%E8%96%A6%E5%B0%88%E5%8D%80/">289位議員候選人</a>在愛家盟推薦的名單中。愛家盟表示，如果要列在愛家推薦名單內，候選人必須有具體公開的守護教育行為，或是支持愛家公投，符合兩項標準之一，就會被加入推薦名單。</p>
       <p><br></p>
       <p>同婚公投成為議員候選人另一戰場，多數候選人傾向不表態，但也有候選人公開連署力挺平權公投。</p>
       <p><br></p>
@@ -128,7 +128,7 @@
         <div>視覺設計、影音：許瑋琳</div>
         <div>網頁製作：楊若榆</div>
         <div>監製：蔡幸怡、董谷音、潘如瑩</div>
-        <div>2018.11.16</div>
+        <div>2018.11.19</div>
       </Editor>
       <p><br></p>
       <Question href="https://www.surveycake.com/s/KpQKN" text="填寫閱讀體驗問卷"></Question>

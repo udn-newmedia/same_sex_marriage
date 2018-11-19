@@ -2,13 +2,13 @@
   <div class="head-bar-wrapper">
     <div class="logo-wrapper">
       <div class="logo_box">
-        <a href="https://ubrand.udn.com/ubrand/index" target="_blank">
+        <a href="https://ubrand.udn.com/ubrand/index" :style="{color: logoColor}" target="_blank">
           <i class="udn-icon udn-icon-logo"></i>
         </a>
       </div>
       <div class="muted-wrapper" @click="videoMuted">
-        <div v-show="mutedFlag" class="muted-image-wrapper"><img class="muted-image" src="static/off.svg"></div>
-        <div v-show="!mutedFlag" class="muted-image-wrapper"><img class="muted-image" src="static/on.svg"></div>
+        <div v-show="mutedFlag" class="muted-image-wrapper"><img class="muted-image" :src="muteOffSrc"></div>
+        <div v-show="!mutedFlag" class="muted-image-wrapper"><img class="muted-image" :src="muteOnSrc"></div>
       </div>
     </div>
   </div>
@@ -21,7 +21,10 @@ export default {
   name: 'VideoHeadBar',
   data () {
     return {
-      mutedFlag: true
+      mutedFlag: true,
+      logoColor: '#ffffff',
+      muteOnSrc: 'static/on_w.svg',
+      muteOffSrc: 'static/off_w.svg'
     }
   },
   methods: {
@@ -38,6 +41,27 @@ export default {
     },
     setMute () {
       this.mutedFlag = true
+    },
+    chooseLogoColor (changeFlag) {
+      if (changeFlag) {
+        this.logoColor = '#313131'
+      } else {
+        this.logoColor = '#ffffff'
+      }
+    },
+    chooseMuteOffColor (changeFlag) {
+      if (changeFlag) {
+        this.muteOffSrc = 'static/off.svg'
+      } else {
+        this.muteOffSrc = 'static/off_w.svg'
+      }
+    },
+    chooseMuteOnColor (changeFlag) {
+      if (changeFlag) {
+        this.muteOnSrc = 'static/on.svg'
+      } else {
+        this.muteOnSrc = 'static/on_w.svg'
+      }
     }
   }
 }
@@ -72,7 +96,6 @@ export default {
       height: 100%;
       font-size: 36px;
       a {
-        color: #313131;
         opacity: 0.6;
         text-decoration: none;
       }
